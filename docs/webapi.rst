@@ -96,7 +96,7 @@ This method retrieves the list of comments posted to a given content type and ob
                "parent_id": 10,
                "permalink": "/comments/cr/8/4/#c10",
                "submit_date": "May 18, 2017, 9:19 AM",
-               "user_avatar": "http://www.gravatar.com/avatar/7dad9576 ...",
+               "user_avatar": "https://www.gravatar.com/avatar/7dad9576 ...",
                "user_moderator": true,
                "user_name": "Joe Bloggs",
                "user_url": ""

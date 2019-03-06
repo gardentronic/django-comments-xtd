@@ -208,7 +208,7 @@ Filter syntax::
 
   {{ comment.email|xtd_comment_gravatar }}
 
-A simple gravatar filter that inserts the `gravatar <http://www.gravatar.com/>`_ image associated to an email address.
+A simple gravatar filter that inserts the `gravatar <https://www.gravatar.com/>`_ image associated to an email address.
 
 This filter has been named ``xtd_comment_gravatar`` as oposed to simply ``gravatar`` to avoid potential name collisions with other gravatar filters the user might have opted to include in the template.
 
@@ -225,7 +225,7 @@ Filter syntax::
 
   {{ comment.email|xtd_comment_gravatar_url }}
 
-A simple gravatar filter that inserts the `gravatar URL <http://www.gravatar.com/>`_ associated to an email address.
+A simple gravatar filter that inserts the `gravatar URL <https://www.gravatar.com/>`_ associated to an email address.
 
 This filter has been named ``xtd_comment_gravatar_url`` as oposed to simply ``gravatar_url`` to avoid potential name collisions with other gravatar filters the user might have opted to include in the template.
 
