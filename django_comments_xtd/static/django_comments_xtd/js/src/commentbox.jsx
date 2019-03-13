@@ -14,6 +14,7 @@ export class CommentBox extends React.Component {
     super(props);
     lib.jquery_ajax_setup('csrftoken');
     this.state = {
+      show_form: false,
       previewing: false,
       preview: {name: '', email: '', url: '', comment: ''},
       tree: [], cids: [], newcids: [], counter: this.props.comment_count
@@ -21,6 +22,8 @@ export class CommentBox extends React.Component {
     this.handle_comment_created = this.handle_comment_created.bind(this);
     this.handle_preview = this.handle_preview.bind(this);
     this.handle_update = this.handle_update.bind(this);
+    this.handleBtnClick = this.handleBtnClick.bind(this);
+
   }
 
   handle_comment_created() {
@@ -174,13 +177,24 @@ export class CommentBox extends React.Component {
     if(this.props.polling_interval)
       setInterval(this.load_count.bind(this), this.props.polling_interval);
   }
-  
+
+  handleBtnClick(event) {
+    this.setState(prevState => ({
+        show_form : !prevState.show_form
+    }));
+  }
+
+    renderLoginMsg() {
+      return (<div className="text-muted mb-4 login-msg"><em>Login to post a comment.</em></div>)
+  }
+
   render() {
     var settings = this.props;
-    var comment_counter = this.render_comment_counter();
     var update_alert = this.render_update_alert();
-    var comment_form = this.render_comment_form();
-
+    const {is_authenticated} = this.props;
+    var comment_form = is_authenticated && this.render_comment_form();
+    const login_msg = !is_authenticated && this.renderLoginMsg();
+    const {show_form} = this.state;
     var nodes = this.state.tree.map(function(item) {
       return (
         <Comment key={item.id}
@@ -190,18 +204,22 @@ export class CommentBox extends React.Component {
                  on_comment_created={this.handle_comment_created} />
       );
     }.bind(this));
-    
-    return (
-      <div>
-        {comment_counter}
-        {comment_form}
-        {update_alert}
-        <div className="comment-tree">
-          <div className="media-list">
-            {nodes}
+  return (
+      <>
+          <div className="segment">
+              <button className="btn btn-primary pull-right" id="comment-btn"
+                      onClick={(event) => this.handleBtnClick(event)}>COMMENT
+              </button>
+              <h3>COMMENTS</h3>
           </div>
-        </div>
-      </div>
-    );
+          {update_alert}
+          <div className="comment-tree col-12 mx-auto mt-4">
+              { login_msg }
+              <div className="media-list">
+                  {nodes}
+              </div>
+              { show_form && comment_form }
+          </div>
+      </>);
   }
 }

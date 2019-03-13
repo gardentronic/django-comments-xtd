@@ -88,16 +88,14 @@ export class CommentForm extends React.Component {
     }
     var placeholder = django.gettext("Your comment");
     return (
-      <div className={div_cssc}>
-        <div className="offset-md-1 col-md-10">
+        <>
           <textarea required name="comment" id="id_comment"
                     placeholder={placeholder} maxLength="3000"
                     className={input_cssc} value={this.state.comment}
                     onChange={this.handle_input_change}
                     onBlur={this.handle_blur('comment')} />
           {help}
-        </div>
-      </div>
+        </>
     );
   }
 
@@ -206,8 +204,6 @@ export class CommentForm extends React.Component {
     if(this.state.reply_to > 0)
       label_cssc += " small";
     return (
-      <div className="form-group row">
-        <div className="offset-md-3 col-md-7">
           <div className="custom-control custom-checkbox">
             <input className="custom-control-input" type="checkbox"
                    checked={this.state.followup}
@@ -217,8 +213,6 @@ export class CommentForm extends React.Component {
               &nbsp;{label}
             </label>
           </div>
-        </div>
-      </div>
     );
   }
 
@@ -359,21 +353,10 @@ export class CommentForm extends React.Component {
 
   render_form() {
     let comment = this.render_field_comment();
-    let name = this.render_field_name();
-    let mail = this.render_field_email();
-    let url = this.render_field_url();
     let followup = this.render_field_followup();
-    let btns_row_class = "form-group row";
-    let btn_submit_class = "btn btn-primary",
-        btn_preview_class = "btn btn-secondary";
-    if(this.state.reply_to != 0) {
-      btns_row_class += " mb-0";
-      btn_submit_class += " btn-sm";
-      btn_preview_class += " btn-sm";
-    }
-    var btn_label_preview = django.gettext("preview");
-    var btn_label_send = django.gettext("send");
-    
+    let btn_submit_class = "btn";
+    var btn_label_send = django.gettext("POST");
+
     return (
       <form method="POST" onSubmit={this.handle_submit}>
         <input type="hidden" name="content_type"
@@ -386,33 +369,32 @@ export class CommentForm extends React.Component {
                defaultValue={this.props.form.security_hash}/>
         <input type="hidden" name="reply_to"
                defaultValue={this.state.reply_to}/>
-        <fieldset>
-          <div style={{display:'none'}}>
-            <input type="text" name="honeypot" defaultValue=""/>
+          <div className="comment-form row">
+              <div className="col-10 cbox">
+                  <fieldset>
+                      <div style={{display: 'none'}}>
+                          <input type="text" name="honeypot" defaultValue=""/>
+                      </div>
+                      {comment}
+                  </fieldset>
+              </div>
+              <div className="col-2 cbtn">
+                  <button type="submit" name="post"
+                          className={btn_submit_class}>{btn_label_send}</button>
+              </div>
           </div>
-          {comment} {name} {mail} {url} {followup}
-        </fieldset>
-        
-        <div className={btns_row_class}>
-          <div className="offset-md-3 col-md-7">
-            <button type="submit" name="post"
-                    className={btn_submit_class}>{btn_label_send}</button>&nbsp;
-            <button name="preview" className={btn_preview_class}
-                   onClick={this.handle_preview}>{btn_label_preview}</button>
-          </div>
-        </div>
+            {followup}
       </form>
     );
   }
   
   render() {
-    let preview = this.render_preview();
     let header = "";
-    let div_class = "card card-block mt-2";
-    var label = django.gettext("Post your comment");
+    let div_class = "card card-block card-reply";
+    var label = django.gettext("LEAVE A COMMENT");
     if(this.state.reply_to == 0) {
-      header = <h4 className="card-title text-center pb-3">{label}</h4>;
-      div_class = "card card-block mt-4 mb-5";
+      header = <h4 className="card-title text-left">{label}</h4>;
+      div_class = "card card-block mb-2";
     }
     let alert_div = "";
     if(this.state.alert.message) {
@@ -423,9 +405,7 @@ export class CommentForm extends React.Component {
       );
     }
     let form = this.render_form();
-
     return (<div>
-              {preview}
               <div className={div_class}>
                 <div className="card-body">
                   {header}

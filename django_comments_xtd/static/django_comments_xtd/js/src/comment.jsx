@@ -77,7 +77,7 @@ export class Comment extends React.Component {
         flagging_html = (
           <span>
             {flagging_count}
-            <i className="fas fa-flag text-danger" title={inapp_msg}></i>
+            <i className="fa fa-flag text-danger" title={inapp_msg}></i>
           </span>
         );
       } else {
@@ -90,7 +90,7 @@ export class Comment extends React.Component {
         inapp_msg = django.gettext("flag comment as inappropriate");
         flagging_html = (
           <a className="mutedlink" href={url}>
-            <i className="fas fa-flag" title={inapp_msg}></i></a>
+            <i className="fa fa-flag" title={inapp_msg}></i></a>
         );
       }
     }
@@ -101,7 +101,7 @@ export class Comment extends React.Component {
       let remove_msg = django.gettext("remove comment");
       url = this.props.settings.delete_url.replace('0', this.props.data.id);
       moderate_html = (<a className="mutedlink" href={url}>
-                         <i className="fas fa-trash-alt" title={remove_msg}></i>
+                         <i className="fa fa-trash-o" title={remove_msg}></i>
                        </a>);
     }
 
@@ -150,7 +150,7 @@ export class Comment extends React.Component {
 
     let css_class = this.state[dir] ? '' : 'mutedlink';
     let icon = dir == 'like' ? 'thumbs-up' : 'thumbs-down';
-    let class_icon = "fas fa-"+icon;
+    let class_icon = "fa fa-"+icon;
     let click_hdl = dir == 'like' ? this.action_like : this.action_dislike;
     let opinion="", link="#";
     if (dir == 'like')
@@ -207,12 +207,12 @@ export class Comment extends React.Component {
     if(this.props.settings.allow_feedback) {
       return (
         <span>&nbsp;&nbsp;<span className="text-muted">&bull;</span>&nbsp;&nbsp;
-          <a className="small mutedlink" href={url}
+          <a className="small mutedlink replylink" href={url}
              onClick={this.handle_reply_click}>{reply_label}</a>
         </span>
       );
     } else {
-      return (<a className="small mutedlink" href={url}
+      return (<a className="small mutedlink replylink" href={url}
               onClick={this.handle_reply_click}>{reply_label}</a>);
     }
   }
@@ -385,7 +385,7 @@ export class Comment extends React.Component {
             <a name={comment_id}></a>
             <h6 className="mb-1 small d-flex">
               <div className="mr-auto">
-                {new_label}{this.props.data.submit_date}&nbsp;-&nbsp;{user_name}
+                {new_label}{user_name}&nbsp;-&nbsp;{this.props.data.submit_date}
                 &nbsp;&nbsp;
                 <a className="permalink" href={this.props.data.permalink}>¶</a>
               </div>
